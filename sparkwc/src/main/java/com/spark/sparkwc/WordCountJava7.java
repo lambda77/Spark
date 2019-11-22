@@ -9,16 +9,14 @@ import org.apache.spark.api.java.function.*;
 import scala.Tuple2;
 
 
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 /*
-java7 编写spark wordcount 程序
+java7 编写spark word count 程序
  */
 public class WordCountJava7 {
-
 
     public static void main(String[] args) {
         SparkConf conf = new SparkConf();
@@ -53,28 +51,21 @@ public class WordCountJava7 {
                 return tuple2;
             }
         });
-
         // 每个单词进行统计
-       JavaPairRDD<String, Integer> rdd3 = rdd2.reduceByKey(new Function2<Integer, Integer, Integer>() {
-           @Override
-           public Integer call(Integer v1, Integer v2) throws Exception {
-               return v1 + v2;
-           }
-       });
-
-
-
-
-       // 打印结果
-
-      rdd3.foreach(new VoidFunction<Tuple2<String, Integer>>() {
-          @Override
-          public void call(Tuple2<String, Integer> tuple2) throws Exception {
-              System.out.println(tuple2);
-          }
-      });
-
-     jsc.close();
+        JavaPairRDD<String, Integer> rdd3 = rdd2.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer v1, Integer v2) throws Exception {
+                return v1 + v2;
+            }
+        });
+        // 打印结果
+        rdd3.foreach(new VoidFunction<Tuple2<String, Integer>>() {
+            @Override
+            public void call(Tuple2<String, Integer> tuple2) throws Exception {
+                System.out.println(tuple2);
+            }
+        });
+        jsc.close();
 
     }
 
